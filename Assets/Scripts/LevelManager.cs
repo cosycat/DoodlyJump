@@ -12,8 +12,19 @@ public class LevelManager : MonoBehaviour
     public Player Player { get; private set; }
 
     private float PlayerYPosition => Player.FeetPos.y;
+    public float DisplayWidth { get; private set; }
+    public float DisplayHeight { get; private set; }
 
-    private float _levelYPosition;
+    private float _levelYPosition; // only serializable to see the current position
+    [SerializeField] private int levelBlockSize = 1000;
+    [SerializeField] private float jumpHeight = 10;
+    [SerializeField] private CameraController cameraController;
+
+
+    public int LevelBlockSize => levelBlockSize;
+    public float JumpHeight => jumpHeight;
+
+
     public float LevelYPosition
     {
         get => _levelYPosition;
@@ -24,8 +35,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    
-    
+
     private void Awake()
     {
         if (Instance is null)
@@ -37,6 +47,12 @@ public class LevelManager : MonoBehaviour
         {
             Player = FindObjectOfType<Player>();
         }
+    }
+
+    private void Start()
+    {
+        DisplayHeight = cameraController.Camera.orthographicSize * 2;
+        DisplayWidth = cameraController.Camera.aspect * DisplayHeight;
     }
 
     private void Update()
@@ -51,11 +67,25 @@ public class LevelManager : MonoBehaviour
     
     #region Events
 
+    /// <summary>
+    /// Called every frame, the Player jumped higher than ever before.
+    /// The previous highest position and the new highest position are in the LevelPositionEventArgs.
+    /// </summary>
     public event EventHandler<LevelPositionEventArgs> UpdateLevelPosition;
-    
-    protected virtual void OnUpdateLevelPosition(LevelPositionEventArgs e)
+    public event EventHandler<LevelPositionEventArgs> UpdateLevelBlockPosition;
+
+    private void OnUpdateLevelPosition(LevelPositionEventArgs e)
     {
         UpdateLevelPosition?.Invoke(this, e);
+        if ((int)(e.previousPosition / LevelBlockSize) != (int)(e.newPosition / LevelBlockSize))
+        {
+            OnUpdateLevelBlockPosition(e);
+        }
+    }
+
+    private void OnUpdateLevelBlockPosition(LevelPositionEventArgs e)
+    {
+        UpdateLevelBlockPosition?.Invoke(this, e);
     }
 
     #endregion

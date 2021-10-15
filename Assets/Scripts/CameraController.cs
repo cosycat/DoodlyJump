@@ -6,13 +6,13 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private float maxPlayerCameraHeight;
-    private Camera _camera;
+    public Camera Camera { get; private set; }
     private LevelManager LM => LevelManager.Instance;
     private Player Player => LM.Player;
 
     private void Awake()
     {
-        _camera = GetComponent<Camera>();
+        Camera = GetComponent<Camera>();
 
         LM.UpdateLevelPosition += UpdateCameraPosition;
     }
@@ -20,7 +20,8 @@ public class CameraController : MonoBehaviour
 
     private void UpdateCameraPosition(object sender, LevelPositionEventArgs e)
     {
-        var newCameraYPos = e.newPosition - maxPlayerCameraHeight + _camera.orthographicSize;
+        Debug.Log("UpdateCam");
+        var newCameraYPos = e.newPosition - maxPlayerCameraHeight + Camera.orthographicSize;
         transform.position = new Vector3(transform.position.x, newCameraYPos, transform.position.z);
     }
 }

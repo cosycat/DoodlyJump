@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
     
     private void Jump(object sender, LandedOnPlatformEventArgs eventArgs)
     {
-        Debug.Log("JUMP");
+        // Debug.Log("JUMP");
         _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, 0);
         _rigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
