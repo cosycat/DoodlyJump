@@ -12,7 +12,9 @@ public class LevelGenerator : MonoBehaviour
     private int LevelBlockSize => LM.LevelBlockSize;
 
     private int _currentBlockNumber = 0;
+    private readonly int _numberOfPregeneratedBlocks = 3;
 
+    private readonly List<GameObject> _blocks = new List<GameObject>();
 
     [SerializeField] private float minYPlatformDistance = 1;
     [SerializeField] private Platform basicPlatform;
@@ -37,28 +39,34 @@ public class LevelGenerator : MonoBehaviour
 
     private void CreateNewLevelBlock(int blockNumber, bool isFirstBlock = false)
     {
+        var blockGO = new GameObject();
+        blockGO.transform.parent = transform;
+        blockGO.name = $"LevelBlock {blockNumber}";
+        
         float newHeight = LevelBlockSize * blockNumber;
         while (newHeight < LevelBlockSize * (blockNumber + 1))
         {
-            var newPlatform = Instantiate(basicPlatform, transform, true);
+            var newPlatform = Instantiate(basicPlatform, blockGO.transform, true);
             // Set the Position of the new Platform
             var newPlatformTransform = newPlatform.transform;
             var platformTransformPosition = newPlatformTransform.position;
             platformTransformPosition.y = newHeight;
             var maxDistanceFromCenter = LM.DisplayWidth / 2 - newPlatform.Width / 2;
-            Debug.Log("maxDistanceFromCenter = " + maxDistanceFromCenter);
             platformTransformPosition.x = Random.Range(-maxDistanceFromCenter, maxDistanceFromCenter);
             newPlatformTransform.position = platformTransformPosition;
             
             // Lastly update the new height for the next platform
             newHeight += Random.Range(minYPlatformDistance, newPlatform.MaxYDistance);
         }
-        // Old loop
-        // for (var i = 0; i < LevelBlockSize; i+= (int)JumpHeight)
-        // {
-        //     var newPlatform = Instantiate(basicPlatform, transform, true);
-        //     
-        // }
+        
+        _blocks.Add(blockGO);
+        if (_blocks.Count > _numberOfPregeneratedBlocks)
+        {
+            var oldestBlock = _blocks[0];
+            Destroy(oldestBlock);
+            _blocks.Remove(oldestBlock);
+            Debug.Log("Removed The Last One");
+        }
 
         Debug.Log("New Level Block Created");
     }

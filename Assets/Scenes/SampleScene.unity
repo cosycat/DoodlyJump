@@ -493,9 +493,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce27ed85b10104ce2b2d62fe499dd052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelYPosition: 0
-  levelBlockSize: 100
+  levelBlockSize: 10
   jumpHeight: 10
+  cameraController: {fileID: 519420030}
 --- !u!114 &1836510037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -508,6 +508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a03f8fbf160f4b48b00ee05db4e403b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minYPlatformDistance: 1
   basicPlatform: {fileID: 1160669515739772078, guid: 49988772f530840dab0be0cd61a3039b, type: 3}
 --- !u!4 &1836510038
 Transform:

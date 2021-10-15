@@ -20,7 +20,6 @@ public class CameraController : MonoBehaviour
 
     private void UpdateCameraPosition(object sender, LevelPositionEventArgs e)
     {
-        Debug.Log("UpdateCam");
         var newCameraYPos = e.newPosition - maxPlayerCameraHeight + Camera.orthographicSize;
         transform.position = new Vector3(transform.position.x, newCameraYPos, transform.position.z);
     }
