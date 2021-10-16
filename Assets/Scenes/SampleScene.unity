@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20bf0b2ee8f4145bd9a6d17d262a8ec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxPlayerCameraHeight: 16
+  maxPlayerCameraHeight: 15
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
