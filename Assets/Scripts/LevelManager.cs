@@ -11,11 +11,16 @@ public class LevelManager : MonoBehaviour
 
     public Player Player { get; private set; }
 
-    private float PlayerYPosition => Player.FeetPos.y;
-    public float DisplayWidth { get; private set; }
-    public float DisplayHeight { get; private set; }
+    public bool IsGameOver { get; private set; } = false;
+    
+    private float PlayerFeetPos => Player.FeetPos.y;
+    public float DisplayWidth => cameraController.DisplayWidth;
+    public float DisplayHeight => cameraController.DisplayHeight;
 
-    private float _levelYPosition; // only serializable to see the current position
+    public float DeathLine => cameraController.transform.position.y - DisplayHeight / 2;
+    
+    private float _levelYPosition;
+    
     [SerializeField] private int levelBlockSize = 1000;
     [SerializeField] private float jumpHeight = 10;
     [SerializeField] private CameraController cameraController;
@@ -24,7 +29,9 @@ public class LevelManager : MonoBehaviour
     public int LevelBlockSize => levelBlockSize;
     public float JumpHeight => jumpHeight;
 
-
+    /// <summary>
+    /// The Position the Player's feet were the highest yet in the current run.
+    /// </summary>
     public float LevelYPosition
     {
         get => _levelYPosition;
@@ -49,17 +56,16 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        DisplayHeight = cameraController.Camera.orthographicSize * 2;
-        DisplayWidth = cameraController.Camera.aspect * DisplayHeight;
-    }
-
     private void Update()
     {
-        if (LevelYPosition < PlayerYPosition)
+        if (LevelYPosition < PlayerFeetPos)
         {
-            LevelYPosition = PlayerYPosition;
+            LevelYPosition = PlayerFeetPos;
+        }
+
+        if (PlayerFeetPos < DeathLine)
+        {
+            IsGameOver = true;
         }
     }
 

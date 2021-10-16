@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    private LevelManager LM => LevelManager.Instance;
     private Vector2 _lastFeetPosition;
     private Rigidbody2D _rigidbody2D;
     public float HalvedHeight => transform.localScale.y;
@@ -41,10 +42,27 @@ public class Player : MonoBehaviour
         // transform.position += Vector3.right * _hMovement * hMovementSpeed * Time.deltaTime;
         _rigidbody2D.AddForce(Vector2.right * (_hMovement * hMovementSpeed), ForceMode2D.Force);
         _lastFeetPosition = FeetPos;
+
+        var transformPosition = transform.position;
+        if (transformPosition.x > LM.DisplayWidth / 2)
+        {
+            transformPosition.x -= LM.DisplayWidth;
+        }
+        if (transformPosition.x < -LM.DisplayWidth / 2)
+        {
+            transformPosition.x += LM.DisplayWidth;
+        }
+
+        transform.position = transformPosition;
     }
     
     public void OnTriggerEnter2D(Collider2D other)
     {
+        if (LM.IsGameOver)
+        {
+            return;
+        }
+        
         var platform = other.gameObject.GetComponent<Platform>();
         if (platform != null)
         {
