@@ -38,8 +38,8 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.position += Vector3.right * _hMovement * hMovementSpeed * Time.deltaTime;
-        // _rigidbody2D.AddForce(Vector2.right * (_hMovement * hMovementSpeed), ForceMode2D.Force);
+        // transform.position += Vector3.right * _hMovement * hMovementSpeed * Time.deltaTime;
+        _rigidbody2D.AddForce(Vector2.right * (_hMovement * hMovementSpeed), ForceMode2D.Force);
         _lastFeetPosition = FeetPos;
     }
     
