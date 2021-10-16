@@ -493,7 +493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce27ed85b10104ce2b2d62fe499dd052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelBlockSize: 10
+  levelBlockSize: 50
   jumpHeight: 10
   cameraController: {fileID: 519420030}
 --- !u!114 &1836510037

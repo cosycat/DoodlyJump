@@ -56,7 +56,7 @@ public class LevelGenerator : MonoBehaviour
             newPlatformTransform.position = platformTransformPosition;
             
             // Lastly update the new height for the next platform
-            newHeight += Random.Range(minYPlatformDistance, newPlatform.MaxYDistance);
+            newHeight += Random.Range(newPlatform.MinYDistance, newPlatform.MaxYDistance);
         }
         
         _blocks.Add(blockGO);

@@ -13,7 +13,8 @@ public class Platform : LevelObject
     /// The Max Distance the next Platform needs to be, to reach it from this one.
     /// </summary>
     public float MaxYDistance => LevelManager.Instance.JumpHeight;
+    public float MinYDistance => transform.localScale.y;
+
 
     public float Width => transform.localScale.x;
-
 }
